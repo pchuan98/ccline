@@ -50,14 +50,17 @@ public static class Helper
         var result = new StringBuilder();
 
         fg = fg == Color.Empty ? Color.White : fg;
-        bg = bg == Color.Empty ? Color.Black : bg;
 
         // Apply alpha blending to simulate transparency
         if (alpha < 1)
-            fg = BlendColors(fg, bg, alpha);
+        {
+            var bgColor = bg == Color.Empty ? Color.Black : bg;
+            fg = BlendColors(fg, bgColor, alpha);
+        }
 
         result.Append($"\e[38;2;{fg.R};{fg.G};{fg.B}m");
-        result.Append($"\e[48;2;{bg.R};{bg.G};{bg.B}m");
+        if (bg != Color.Empty)
+            result.Append($"\e[48;2;{bg.R};{bg.G};{bg.B}m");
 
         result.Append(text);
         result.Append(Reset);
