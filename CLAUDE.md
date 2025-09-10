@@ -1,0 +1,1 @@
+- About Claude Code StatusLine: 1. Supports ANSI color codes for styling the status bar; 2.Claude Code passes current session context information (model, directory, etc.) as JSON to your script via stdin; 3. The first line of your command’s stdout becomes the status bar text

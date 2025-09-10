@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(dotnet add package:*)",
+      "Bash(dotnet run:*)",
+      "Read(//c/Users/haeer/**)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "Bash(move:*)",
+      "Bash(bunx ccusage:*)",
+      "Read(//d/.open/ccusage/**)",
+      "Bash(dotnet build:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
