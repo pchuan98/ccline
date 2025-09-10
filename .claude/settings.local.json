@@ -10,7 +10,8 @@
       "Bash(move:*)",
       "Bash(bunx ccusage:*)",
       "Read(//d/.open/ccusage/**)",
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(powershell:*)"
     ],
     "deny": [],
     "ask": []
