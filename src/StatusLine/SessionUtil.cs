@@ -26,8 +26,9 @@ public static class SessionUtil
     /// <summary>
     /// Updates session data from JSON input and loads all available sessions
     /// </summary>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <exception cref="ArgumentException">Thrown when transcript file doesn't exist</exception>
-    public static void Update(StatuslineInput? input)
+    public static async Task UpdateAsync(StatuslineInput? input, CancellationToken cancellationToken = default)
     {
         if (CurrentInput is not null) return;
 
@@ -36,7 +37,16 @@ public static class SessionUtil
 
         CurrentInput = input;
 
-        CurrentSessions = File.ReadAllLines(input.TranscriptPath)
+        await using var stream = new FileStream(input.TranscriptPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        using var reader = new StreamReader(stream);
+        var lines = new List<string>();
+        while (await reader.ReadLineAsync(cancellationToken) is { } line)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            lines.Add(line);
+        }
+        
+        CurrentSessions = lines
             .Select(SessionMessage.FromJson)
             .ToArray();
 

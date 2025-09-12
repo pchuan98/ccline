@@ -5,12 +5,15 @@ using StatusLine.Plugins;
 
 // Set UTF-8 encoding for console output
 var input = Helper.Initialize();
+var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
 StatuslineInput? claude = null;
 
 try
 {
     claude = StatuslineInput.FromJson(input);
-    SessionUtil.Update(claude);
+
+    await SessionUtil.UpdateAsync(claude, cts.Token);
+
 }
 catch (ArgumentException)
 {
@@ -22,7 +25,7 @@ catch (Exception e)
 }
 
 // Configure DI container with factory to set Input
-using var provider = new ServiceCollection()
+await using var provider = new ServiceCollection()
     .AddTransient<IPlugin>(_ => new ProjectPlugin { Input = claude })
     .AddTransient<IPlugin>(_ => new GitPlugin { Input = claude })
     .AddTransient<IPlugin>(_ => new TokenPlugin { Input = claude })
